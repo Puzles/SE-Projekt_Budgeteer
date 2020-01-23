@@ -1,0 +1,130 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color:rgb(177, 24, 24);
+    font-family: system-ui, -apple-system, -apple-system-font, 'Segoe UI', 'Roboto', sans-serif;
+    font-size:12px;
+    height:100vh;
+    margin:0px;
+    padding:2px;
+    /* Padding to avoid the "unsafe" areas behind notches in the screen */
+    padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-right, 0px);
+/*    text-transform:uppercase;*/
+    width:100%;
+
+}
+
+#StartHeader{
+    background-color: rgba(0, 5, 26, 0.945);
+    font-size: 20px;
+    font-weight: bold;
+    margin:10px 10px 0px 10px;
+    padding: 10px;
+    color: rgb(235, 235, 235);
+}
+
+a {
+    text-decoration: none;
+    color:  rgba(0, 5, 26, 0.945);
+    
+}
+
+a:link{
+    color: rgb(26, 42, 92);
+}
+
+.AddButton{
+    font-size: 25px;
+    padding:10px;
+    color: rgba(0, 5, 26, 0.945);
+    margin: 10px;
+}
+
+.BudgetListItem{
+
+    font-size: 20px;
+    padding: 10px;
+    border-style: solid;
+    border-radius: 9px;
+    color: lime;
+    background-color: rgb(119, 253, 119);
+    margin: 5px;
+    box-shadow: -2px 2px 4px rgba(44, 44, 44, 0.575);
+}
+
+.RedBudgetListItem{
+
+    font-size: 20px;
+    padding: 10px;
+    border-style: solid;
+    border-radius: 9px;
+    color: crimson;
+    background-color: rgb(218, 116, 136);
+    margin:5px;
+    box-shadow: -2px 2px 4px rgba(44, 44, 44, 0.575);
+
+}
+
+.BereichDeleter{
+    font-family: system-ui, -apple-system, -apple-system-font, 'Segoe UI', 'Roboto', sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    float: right;
+    border: none;
+    background-color: rgb(119, 253, 119, 0);
+    color: rgb(26, 42, 92);
+
+}
+
+.Rechnung{
+    font-family: system-ui, -apple-system, -apple-system-font, 'Segoe UI', 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 10px;
+    margin: 5px;
+    border-style: solid;
+    color: rgb(26, 42, 92);
+    background-color: rgba(231, 231, 231, 0.384);
+    border-color: rgb(16, 21, 66);
+}
+
+#ueberschrift{
+    background-color: rgba(0, 5, 26, 0.945);
+    font-size: 20px;
+    font-weight: 800;
+    margin:10px 10px 0px 10px;
+    padding: 10px;
+    color: rgb(235, 235, 235);
+}
+
+#MoneyLeft{
+    margin:10px 10px 0px 10px;
+    padding: 10px;
+    color: rgba(0, 5, 26, 0.945);
+    font-size: 40px;
+    font-weight: 900;
+}
+

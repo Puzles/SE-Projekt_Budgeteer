@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+    <meta charset="utf-8">
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+     <!--  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">-->
+        
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        
+     <!--   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
+        <script src="jquery/jquery-1.8.0.min.js"></script>
+        <script src="jquery/jquery.mobile-1.4.5.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="jquery/jquery.mobile-1.4.5.min.css">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/rechnung.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>
+        <title>Budgeteer</title>
+    </head>
+
+    <body>
+
+    <div data-role ="page" id="start">
+    <div id="StartHeader"><h1>Deine Budgets</h1></div>
+            
+    <div data-role="content" id="startContent"> 
+        <div id="folders">
+        </div>
+    </div>  
+    <div class="AddButton"><a href="#addBereich" data-transition="slideup">  + Bereich hinzufügen</a></div>
+    </div> 
+  
+    <div data-role="page" id="uebersicht">
+    <div id="uebersichtHeader"><div id="ueberschrift"></div><div id="MoneyLeft"></div></div>
+    <div data-role="content" id="uebersichtContent"><div id="rechnungen"></div></div>
+    <div class="AddButton">
+        <a href="#addRechnung" data-transition="slideup">  + Ausgabe hinzufügen</a>
+    </div>
+    </div>
+
+
+    <div data-role ="dialog" id="addBereich"> 
+        <div data-role="content">  
+        <form>
+            Budget:
+            <input type="number" name="amount1" id ="BereichAmount" required><br>
+            Name:
+            <input type="text" name="name1" id="BereichName" required><br>
+            <input type="button" name="button1" id="BereichButton" value="Bereich hinzufügen" onclick = "addBereich(this.form);">
+            <a href="#start" data-role="button" data-transition="none"> Abbrechen</a>
+         </form></div>
+    </div>
+
+    <div data-role="dialog" id="addRechnung">
+        <div data-role="content">
+            <form action="addRechnung()">
+                Betrag:
+                <input type="number" name="amount2" id ="RechnungAmount" required><br>
+                Zweck:
+                <input type="text" name="name2" id = "RechnungName" required><br>     
+                <input type="button" id="RechnungButton" name="button2" value="Ausgabe hinzufügen" onclick="addRechnung(this.form)">
+                <a href="#uebersicht" data-role="button" data-transition="none"> Abbrechen</a>
+             </form>
+        </div>
+    </div>
+    </body>
+</html>
