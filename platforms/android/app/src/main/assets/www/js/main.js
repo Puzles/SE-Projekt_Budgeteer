@@ -1,3 +1,20 @@
+/*
+* Header
+* Author Alexander RUpprecht
+* Version: 1.0.0
+* Beschreibung: Klasse enthält alle Methoden die von der Datenbank abhängig sind
+* Copyright : Technische Hochschule Deggendorf
+* Datum: 31.01.2020
+*/
+
+/**
+ * <h1>Budgeteer Main-Script</h1>
+ * 
+ * Beschreibung: Enthält sämtliche Methoden die mit der Datenbank in Verbindung stehen 
+ * @author Alexander Rupprecht
+ * @version 1.0.0
+ * @copyright Technische Hochschule Deggendorf
+ */
 window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 // Verwenden Sie "var indexedDB = ..." NICHT außerhalb einer Funktion.
 // Ferner benötigen Sie evtl. Referenzen zu einigen window.IDB* Objekten:
@@ -10,7 +27,7 @@ var db;
 
 request.onsuccess = function (event) {
     db = request.result;
-    createStart();
+    update();
 };
 request.onupgradeneeded = function (event) {
     db = event.target.result;
@@ -19,6 +36,7 @@ request.onupgradeneeded = function (event) {
     objectStore.createIndex("Budget", "Budget", { unique: false });
     objectStore.createIndex("Rechnungen", "Rechnungen", { unique: false });
 }
+
 var currentId;
 $.mobile.loading().hide();
 
@@ -45,9 +63,8 @@ function addBereich(form) {
         var request = store.put({ Bereich: bereich, Budget: amount, Rechnungen: rechnungen });
 
         request.onsuccess = function (event) {
-            createStart();
+            update();
             window.location.replace("#start");
-            //location.reload();         
         }
 
         request.onerror = function (event) {
@@ -65,7 +82,7 @@ function deleteBereich(set) {
     var trans = db.transaction(["Storage"], "readwrite");
     var store = trans.objectStore("Storage");
     var request = store.delete(set.id);
-    createStart();
+    update();
     location.reload();
 }
 /**
@@ -93,7 +110,7 @@ function addRechnung(form) {
             data.Rechnungen.push(rechnung);
 
             store.put(data);
-            createStart();
+            update();
             window.location.replace("#start");
         }
     }
@@ -105,41 +122,41 @@ function addRechnung(form) {
 function deleteRechnung(rechnung) {
     var trans = db.transaction(["Storage"], "readwrite");
     var store = trans.objectStore("Storage");
-    var row = store.get(currentId);
+    var set = store.get(currentId);
 
-    row.onsuccess = function (event) {
+    set.onsuccess = function (event) {
         var trans = db.transaction(["Storage"], "readwrite");
         var store = trans.objectStore("Storage");
         var data = event.target.result;
         var index = data.Rechnungen.map(function (e) { return e.name }).indexOf(rechnung.name);
         data.Rechnungen.splice(index, 1);
         store.put(data);
-        createStart();
+        update();
         window.location.replace("#start");
     }
 }
 
 /**
- * Methode die Content von db lädt und in Startseite und und übersicht einfügt
+ * Methode die Content von db lädt und in Startseite und Übersicht einfügt
  */
-function createStart() {
+function update() {
 
     var trans = db.transaction("Storage", "readonly");
     var objectStore = trans.objectStore("Storage");
 
-    var query = objectStore.openCursor();
+    var request = objectStore.openCursor();
     var content = document.createElement("div");
     content.setAttribute('id', 'folders');
-    query.onsuccess = function (event) {
+    request.onsuccess = function (event) {
         var cursor = event.target.result;
         if (cursor) {
 
             var info = cursor.value;
             currentId = info.id;
             var moneyLeft = cursor.value.Budget;
-            var row = document.createElement("div");
+            var budgetListItem = document.createElement("div");
             var item = document.createElement("a");
-            row.className = "BudgetListItem";
+            budgetListItem.className = "BudgetListItem";
             item.setAttribute('href', '#uebersicht');
             item.setAttribute('id', info.Bereich);
             var bereichDeleter = document.createElement("input");
@@ -162,18 +179,18 @@ function createStart() {
                 header.setAttribute('id', 'ueberschrift');
                 header.appendChild(ueberschrift);
 
-                var child = document.getElementById('ueberschrift');
-                document.getElementById("uebersichtHeader").replaceChild(header, child);
+                var alteUeberschrift = document.getElementById('ueberschrift');
+                document.getElementById("uebersichtHeader").replaceChild(header, alteUeberschrift);
 
                 var child2 = document.getElementById('MoneyLeft');
                 document.getElementById("uebersichtHeader").replaceChild(uebersichtMoney, child2);
 
-                var container = document.createElement("div");
-                container.setAttribute('id', 'rechnungen');
+                var rechnungenContainer = document.createElement("div");
+                rechnungenContainer.setAttribute('id', 'rechnungen');
 
                 info.Rechnungen.forEach(element => {
-                    var item = document.createElement("div");
-                    item.setAttribute('class', 'Rechnung');
+                    var rechnung = document.createElement("div");
+                    rechnung.setAttribute('class', 'Rechnung');
                     var label = document.createTextNode(element.name + "  " + element.amount + "€");
                     var deleter = document.createElement("input");
                     deleter.setAttribute('type', 'button');
@@ -181,35 +198,32 @@ function createStart() {
                     deleter.setAttribute('class', 'BereichDeleter');
                     deleter.setAttribute('data-role', 'none');
                     deleter.addEventListener("click", function (e) { deleteRechnung(element) });
-                    item.appendChild(label);
-                    item.appendChild(deleter);
-                    container.appendChild(item);
+                    rechnung.appendChild(label);
+                    rechnung.appendChild(deleter);
+                    rechnungenContainer.appendChild(rechnung);
                 });
 
-                var element = document.getElementById("uebersichtContent");
-                var empty = document.getElementById("rechnungen");
-                element.replaceChild(container, empty);
+                var uebersichtContent = document.getElementById("uebersichtContent");
+                var alteRechnungen = document.getElementById("rechnungen");
+                uebersichtContent.replaceChild(rechnungenContainer, alteRechnungen);
             };
-
-
-
 
             var node = document.createTextNode(cursor.value.Bereich + "  " + moneyLeft + "€/" + cursor.value.Budget + "€");
             if (moneyLeft < cursor.value.Budget / 10) {
-                row.setAttribute('class', 'RedBudgetListItem');
+                budgetListItem.setAttribute('class', 'RedBudgetListItem');
             };
             item.appendChild(node);
-            row.appendChild(item);
-            row.appendChild(bereichDeleter)
-            content.appendChild(row);
+            budgetListItem.appendChild(item);
+            budgetListItem.appendChild(bereichDeleter)
+            content.appendChild(budgetListItem);
 
             cursor.continue();
         }
         else {
 
-            var element = document.getElementById("startContent");
-            var replaceable = document.getElementById("folders");
-            element.replaceChild(content, replaceable);
+            var startContent = document.getElementById("startContent");
+            var folders = document.getElementById("folders");
+            startContent.replaceChild(content, folders);
 
 
         }

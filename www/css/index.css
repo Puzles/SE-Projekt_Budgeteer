@@ -68,9 +68,9 @@ a:link{
     font-size: 20px;
     padding: 10px;
     border-style: solid;
-    border-radius: 9px;
-    color: lime;
-    background-color: rgb(119, 253, 119);
+    border-radius: 2px;
+    color: rgb(0, 165, 0);
+    background-color: rgba(0, 165, 0, 0.459);
     margin: 5px;
     box-shadow: -2px 2px 4px rgba(44, 44, 44, 0.575);
 }
@@ -80,9 +80,9 @@ a:link{
     font-size: 20px;
     padding: 10px;
     border-style: solid;
-    border-radius: 9px;
+    border-radius: 2px;
     color: crimson;
-    background-color: rgb(218, 116, 136);
+    background-color: rgba(220, 20, 60, 0.815);
     margin:5px;
     box-shadow: -2px 2px 4px rgba(44, 44, 44, 0.575);
 
@@ -113,7 +113,7 @@ a:link{
 
 #ueberschrift{
     background-color: rgba(0, 5, 26, 0.945);
-    font-size: 20px;
+    font-size: 30px;
     font-weight: 800;
     margin:10px 10px 0px 10px;
     padding: 10px;
